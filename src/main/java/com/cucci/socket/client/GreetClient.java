@@ -22,8 +22,19 @@ public class GreetClient {
         System.out.println(in.readLine());
     }
 
-    public static void main(String[] args) throws IOException {
-        GreetClient client = new GreetClient();
-        client.start("127.0.0.1", 6666);
+    public static void main(String[] args) throws IOException, InterruptedException {
+        for (int i = 0; i < 10; i++) {
+            Thread thread = new Thread(() -> {
+                GreetClient client = new GreetClient();
+                try {
+                    client.start("127.0.0.1", 6666);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            thread.start();
+            thread.join();
+        }
+
     }
 }

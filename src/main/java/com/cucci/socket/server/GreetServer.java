@@ -15,7 +15,7 @@ import java.net.Socket;
  */
 public class GreetServer {
 
-    public void start(int port) throws IOException {
+    public void start(int port) throws IOException, InterruptedException {
         ServerSocket serverSocket = new ServerSocket(port);
         while (true) {
             Socket clientSocket = serverSocket.accept();
@@ -23,6 +23,7 @@ public class GreetServer {
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             String greeting = in.readLine();
             if ("hello server".equals(greeting)) {
+                Thread.sleep(1000);
                 out.println("hello client");
             } else {
                 out.println("unknown message");
@@ -30,7 +31,7 @@ public class GreetServer {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         GreetServer server = new GreetServer();
         server.start(6666);
     }
